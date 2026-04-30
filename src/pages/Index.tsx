@@ -1,14 +1,18 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import LoginPage from './LoginPage';
+import AdminLayout from '@/components/admin/AdminLayout';
 
-const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4 color-black text-black">Добро пожаловать!</h1>
-        <p className="text-xl text-gray-600">тут будет отображаться ваш проект</p>
-      </div>
-    </div>
-  );
-};
+interface AuthUser {
+  name: string;
+  role: string;
+}
 
-export default Index;
+export default function Index() {
+  const [user, setUser] = useState<AuthUser | null>(null);
+
+  if (!user) {
+    return <LoginPage onLogin={setUser} />;
+  }
+
+  return <AdminLayout user={user} onLogout={() => setUser(null)} />;
+}
